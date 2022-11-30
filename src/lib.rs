@@ -1,5 +1,5 @@
 use rdev::{simulate, EventType, Key, SimulateError};
-use std::{env, fs, path::Path, thread, time};
+use std::{env, fs, thread, time};
 
 pub struct Application {}
 
@@ -10,12 +10,12 @@ impl Application {
 
     pub fn run(&self) {
         let max_duration = time::Duration::from_secs(2);
-        let start_time = time::Instant::now();
 
         let args: Vec<String> = env::args().collect();
         let file_path = parse_config(&args);
 
         println!("Typing from file {} will commence in 2 seconds. Please switch to the window you want to be focused.", file_path);
+        let start_time = time::Instant::now();
         let file_contents = load_file(file_path);
 
         //only wait up to 2 seconds. subtract the time spent loading the file.
@@ -157,10 +157,7 @@ fn send(event_type: &EventType) {
 }
 
 fn load_file(file_path: &str) -> String {
-    let path = Path::new(file_path);
-    println!("Attempting to read file from path: {}", path.display());
-    let contents = fs::read_to_string(file_path).expect("Should have been able to read the file");
-    contents
+    fs::read_to_string(file_path).expect("Should have been able to read the file")
 }
 
 fn push_press_and_release(key: Key, events: &mut Vec<EventType>) {
