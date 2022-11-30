@@ -9,7 +9,7 @@ fn main() {
 
     let file_path = &args[1];
     println!("Typing from file {} will commence in 2 seconds. Please switch to the window you want to be focused.", file_path);
-    let file_contents = load_file(file_path);
+    let file_contents = load_file(&file_path);
 
     //only wait up to 2 seconds. subtract the time spent loading the file.
     let now = time::Instant::now();
@@ -136,10 +136,12 @@ fn send(event_type: &EventType) {
     thread::sleep(delay);
 }
 
-fn load_file<P>(file_path: P) -> String
-where
-    P: AsRef<Path>,
+fn load_file(file_path: &String) -> String
+/*where
+    P: AsRef<Path>,*/
 {
+    let path = Path::new(file_path);
+    println!("Attempting to read file from path: {}", path.display());
     let contents = fs::read_to_string(file_path).expect("Should have been able to read the file");
     contents
 }
