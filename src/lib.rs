@@ -9,12 +9,13 @@ impl Application {
     }
 
     pub fn run(&self) {
-        let max_duration = time::Duration::from_secs(2);
+        let delay_seconds = 3;
+        let max_duration = time::Duration::from_secs(delay_seconds);
 
         let args: Vec<String> = env::args().collect();
         let file_path = parse_config(&args);
 
-        println!("Typing from file {} will commence in 2 seconds. Please switch to the window you want to be focused.", file_path);
+        println!("Typing from file {} will commence in {} seconds. Please switch to the window you want to be focused.", file_path, delay_seconds);
         let start_time = time::Instant::now();
         let file_contents = load_file(file_path);
 
